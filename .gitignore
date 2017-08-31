@@ -1,0 +1,13 @@
+# History files
+.Rhistory
+.Rapp.history
+
+# RStudio files
+.Rproj.user/
+
+# Other folders
+Admin/
+zzzDontShare/
+Figs/
+*_cache/
+.Rproj.user
