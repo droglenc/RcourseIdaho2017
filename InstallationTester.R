@@ -1,8 +1,8 @@
 ## Run this script to test the installation of packages needed for the
-## workshop. If all packates are installed correctly this entire script
-## should run without error (you may get some warnings and messages, but
-## there should be no errors). Contact me (derek@derekogle.com) if you
-## have any questions.
+## workshop. If all packages are installed correctly, then this entire
+## script should run without error (you may get some warnings and
+## messages, but there should be no errors). Contact me
+## (derek@derekogle.com) if you have any questions.
 
 library(FSA)
 library(FSAdata)
@@ -38,12 +38,16 @@ library(minpack.lm)
 nls3 <- nlsLM(tl~Linf*(1-exp(-K*(otoage-t0))),data=tmp,
               start=list(Linf=1200,K=0.15,t0=-1.5))
 
-library(car)
+library(plyr)
 library(dplyr)
+library(magrittr)
+tmp %<>% mutate(sex2=mapvalues(sex,from=c("female","male"),to=c("F","M"))) %>%
+  select(-month,-day)
+
+library(car)
 library(dunn.test)
 library(epitools)
 library(gplots)
 library(lmtest)
 library(plotrix)
-library(plyr)
 library(sciplot)
