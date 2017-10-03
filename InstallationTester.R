@@ -4,50 +4,30 @@
 ## messages, but there should be no errors). Contact me
 ## (derek@derekogle.com) if you have any questions.
 
-library(FSA)
-library(FSAdata)
+## Checks FSA install and all packages that it depends on
+source(system.file("helpers","InstallTester.R",package="FSA"),echo=TRUE)
 
-binCI(7,20)
-poiCI(12)
-chooseColors("rich",5)
-data(BlackDrum2001)
-dunnTest(tl~sex,data=BlackDrum2001)
-tmp <- filterD(BlackDrum2001,sex %in% c("female","male"))
-lm1 <- lm(weight~tl,data=BlackDrum2001)
-fitPlot(lm1)
-residPlot(lm1)
-lm2 <- lm(tl~sex,data=BlackDrum2001)
-fitPlot(lm2)
-residPlot(lm2)
-nls1 <- nls(tl~Linf*(1-exp(-K*(otoage-t0))),data=tmp,
-            start=list(Linf=1200,K=0.15,t0=-1.5))
-fitPlot(nls1)
-residPlot(nls1)
-nls2 <- nls(tl~Linf[sex]*(1-exp(-K[sex]*(otoage-t0[sex]))),data=tmp,
-            start=list(Linf=c(1200,1200),K=c(0.15,0.15),t0=c(-1.5,-1.5)))
-lrt(nls1,com=nls2)
+## Check extra packages required for the workshop
+data(SpotVA1)
 
+## Test magrittr functions
+library(magrittr)
+SpotVA1 %<>% mutate(sex=factor(sample(c("F","M"),nrow(SpotVA1),replace=TRUE)))
+
+## Test nlstools functions
+nls1 <- nls(tl~Linf*(1-exp(-K*(age-t0))),data=SpotVA1,
+            start=list(Linf=16,K=0.22,t0=-2))
+nls2 <- nls(tl~Linf[sex]*(1-exp(-K[sex]*(age-t0[sex]))),data=SpotVA1,
+            start=list(Linf=c(16,16),K=c(0.22,0.22),t0=c(-2,-2)))
 library(nlstools)
 boot1 <- nlsBoot(nls1,niter=10)
 confint(boot1,plot=TRUE)
 
+## Test AICcmodavg functions
 library(AICcmodavg)
 aictab(list(nls1,nls2),modnames=c("omega","ultimate full"))
 
+## Test minpack.lm functions
 library(minpack.lm)
-nls3 <- nlsLM(tl~Linf*(1-exp(-K*(otoage-t0))),data=tmp,
-              start=list(Linf=1200,K=0.15,t0=-1.5))
-
-library(plyr)
-library(dplyr)
-library(magrittr)
-tmp %<>% mutate(sex2=mapvalues(sex,from=c("female","male"),to=c("F","M"))) %>%
-  select(-month,-day)
-
-library(car)
-library(dunn.test)
-library(epitools)
-library(gplots)
-library(lmtest)
-library(plotrix)
-library(sciplot)
+nls3 <- nlsLM(tl~Linf*(1-exp(-K*(age-t0))),data=SpotVA1,
+              start=list(Linf=16,K=0.22,t0=-2))
