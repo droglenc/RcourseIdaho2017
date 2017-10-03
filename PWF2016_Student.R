@@ -1,10 +1,12 @@
 ########################################################################
 ##
-##  Clear console and global environment and load packages
+##  Initial Preparation
 ##
 ########################################################################
+# Clear console and global environment
 rm(list = ls())
 cat("\014")     # or ctrl-L in RStudio
+# Load packages
 library(FSA)
 library(FSAdata)
 library(nlstools)
@@ -16,7 +18,7 @@ library(magrittr)
 
 ########################################################################
 ##
-##  Initial Data Wrangling
+##  Initial Data Wrangling (and Quick Summaries)
 ##
 ########################################################################
 # Load data
@@ -88,6 +90,7 @@ headtail(USA.unaged)
 xtabs(~lcat,data=USA.unaged)
 # Assign ages to unaged fish
 USA.unaged <- alkIndivAge(USA.alk,age~tl,data=USA.unaged)
+headtail(USA.unaged)
 # Combine previously aged (from strux) and newly aged (from ALK) fish
 USA <- rbind(USA.aged,USA.unaged)
 headtail(USA,n=5)
@@ -103,7 +106,7 @@ rm(USA.aged,USA.unaged,USA.raw)
 
 ########################################################################
 ##
-##  Estimate mortality rate
+##  Estimate Mortality Rate
 ##
 ########################################################################
 # Compute age frequency (and include the log frequency)
@@ -123,6 +126,7 @@ USA.cc1 <- lm(logfreq~age,data=USA.af.gte2)
 coef(USA.cc1)
 confint(USA.cc1)
 USA.af.gte2 %<>% mutate(wts=predict(USA.cc1))
+USA.af.gte2
 USA.cc2 <- lm(logfreq~age,data=USA.af.gte2,weights=wts)
 cbind(Est=coef(USA.cc2),confint(USA.cc2))
 
@@ -146,7 +150,7 @@ plot(USA.cr)
 
 ########################################################################
 ##
-##  Compare mortality rates
+##  Compare Mortality Rates
 ##
 ########################################################################
 # Compute age frequency (separated by locations)
@@ -189,7 +193,7 @@ rm(tmp,ALL.af.gte2,USA.af.gte2,USA.cc1,ALL.cc1)
 
 ########################################################################
 ##
-##  Fit growth model
+##  Fit Growth Model
 ##
 ########################################################################
 # Create axis label objects to save typing
@@ -199,7 +203,7 @@ ylbl <- "Total Length (mm)"
 clrs2 <- col2rgbt(clrs,1/20)
 
 # Examine lenght-at-age plot
-plot(tl~age,data=USA,pch=19,col=clrs2[1],xlab=xlbl,ylab=ylbl)
+plot(tl~age,data=USA,pch=19,col=clrs2[2],xlab=xlbl,ylab=ylbl)
 
 # Create function with "typical" von Bertalanffy growth function
 vb <- vbFuns("Typical",msg=TRUE)
@@ -246,7 +250,7 @@ curve(vb(x,USA.vbc),from=1,to=8,n=500,lwd=2,col=clrs[2],add=TRUE)
 
 ########################################################################
 ##
-##  Compare growth model parameters
+##  Compare Growth Model Parameters
 ##
 ########################################################################
 plot(tl~age,data=pwf,pch=19,col=clrs2[country],xlab=xlbl,ylab=ylbl)
@@ -309,7 +313,7 @@ legend("topleft",levels(pwf$country),col=clrs,pch=19,lwd=2,bty="n")
 
 ########################################################################
 ##
-##  Compute weight-length relationship
+##  Compute Weight-Length Relationship
 ##
 ########################################################################
 clrs2 <- col2rgbt(clrs,1/3)
@@ -336,7 +340,7 @@ lines(USA.pwt[,"upr"]~lens,lwd=2,lty=2,col=clrs[2])
 
 ########################################################################
 ##
-##  Compare weight-length model parameters
+##  Compare Weight-Length Model Parameters
 ##
 ########################################################################
 plot(logwt~logtl,data=pwf,pch=19,col=clrs2[country])

@@ -52,7 +52,7 @@ SVs <- srStarts(age0~age5,data=WalleyeEL,type="Shepherd",
                  fixed=list(a=30,b=0.001,c=1),plot=TRUE)
 SVsl <- srStarts(age0~age5,data=WalleyeEL,type="SailaLorda",plot=TRUE)
 
-# Fit using levenberg-marquardt algorithm (less sensitive to starts)
+# Fit using Levenberg-Marquardt algorithm (less sensitive to starts)
 SRi.fit <- nlsLM(logage0~log(SRi(age5,a)),data=WalleyeEL,start=SVi)
 SRbh.fit <- nlsLM(logage0~log(SRbh(age5,a,b)),data=WalleyeEL,start=SVbh)
 SRr.fit <- nlsLM(logage0~log(SRr(age5,a,b)),data=WalleyeEL,start=SVr)

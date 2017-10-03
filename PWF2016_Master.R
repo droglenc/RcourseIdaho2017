@@ -106,6 +106,7 @@ headtail(USA.unaged)
 xtabs(~lcat,data=USA.unaged)
 # Assign ages to unaged fish
 USA.unaged <- alkIndivAge(USA.alk,age~tl,data=USA.unaged)
+headtail(USA.unaged)
 # Combine previously aged (from strux) and newly aged (from ALK) fish
 USA <- rbind(USA.aged,USA.unaged)
 headtail(USA,n=5)
@@ -151,6 +152,7 @@ USA.cc1 <- lm(logfreq~age,data=USA.af.gte2)
 coef(USA.cc1)
 confint(USA.cc1)
 USA.af.gte2 %<>% mutate(wts=predict(USA.cc1))
+USA.af.gte2
 USA.cc2 <- lm(logfreq~age,data=USA.af.gte2,weights=wts)
 cbind(Est=coef(USA.cc2),confint(USA.cc2))
 
@@ -243,7 +245,7 @@ ylbl <- "Total Length (mm)"
 clrs2 <- col2rgbt(clrs,1/20)
 
 # Examine lenght-at-age plot
-plot(tl~age,data=USA,pch=19,col=clrs2[1],xlab=xlbl,ylab=ylbl)
+plot(tl~age,data=USA,pch=19,col=clrs2[2],xlab=xlbl,ylab=ylbl)
 
 # Create function with "typical" von Bertalanffy growth function
 vb <- vbFuns("Typical",msg=TRUE)

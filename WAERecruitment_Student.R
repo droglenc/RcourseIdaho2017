@@ -1,10 +1,12 @@
 ########################################################################
 ##
-##  Clear console and global environment and load packages
+##  Initial Preparations
 ##
 ########################################################################
+# Clear console and global environment
 rm(list = ls())
 cat("\014")     # or ctrl-L in RStudio
+# Load packages
 library(FSA)
 library(FSAdata)
 library(dplyr)
@@ -16,7 +18,7 @@ library(AICcmodavg)
 
 ########################################################################
 ##
-##  Initial Data Wrangling
+##  Initial Data Wrangling (and Quick Summary)
 ##
 ########################################################################
 # Load data (from the FSAdata package)
@@ -29,7 +31,7 @@ plot(age0~age5,data=WalleyeEL)
 
 ########################################################################
 ##
-##  Fit stock-recruit models
+##  Fit Stock-Recruit Models
 ##
 ########################################################################
 # Create R functions for each stock-recruitment function
@@ -50,7 +52,7 @@ SVs <- srStarts(age0~age5,data=WalleyeEL,type="Shepherd",
                  fixed=list(a=30,b=0.001,c=1),plot=TRUE)
 SVsl <- srStarts(age0~age5,data=WalleyeEL,type="SailaLorda",plot=TRUE)
 
-# Fit using levenberg-marquardt algorithm (less sensitive to starts)
+# Fit using Levenberg-Marquardt algorithm (less sensitive to starts)
 SRi.fit <- nlsLM(logage0~log(SRi(age5,a)),data=WalleyeEL,start=SVi)
 SRbh.fit <- nlsLM(logage0~log(SRbh(age5,a,b)),data=WalleyeEL,start=SVbh)
 SRr.fit <- nlsLM(logage0~log(SRr(age5,a,b)),data=WalleyeEL,start=SVr)
