@@ -14,9 +14,9 @@ This one-day course is for students interested in expanding their R skills to es
 ----
 
 ## Course Materials
-* [Lecture Slides (PowerPoint)(Slides.pptx)
-* [Pygmy Whitefish R Script(PWF2016_Student.R) and [data](PWF2016.csv)
-* [Walleye R Script(WAERecruitment_Student.R)
+* [Lecture Slides (PowerPoint)](Slides.pptx)
+* [Pygmy Whitefish R Script](PWF2016_Student.R) and [data](PWF2016.csv)
+* [Walleye R Script](WAERecruitment_Student.R)
 
 ----
 
