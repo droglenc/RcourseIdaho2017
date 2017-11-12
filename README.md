@@ -21,6 +21,6 @@ This one-day course is for students interested in expanding their R skills to es
 ----
 
 ## Post-Course Follow-up
-* Please complete this survey regarding this short course.
+* Please complete [this survey](https://goo.gl/forms/AkRdavsX4vqxMGiA3) regarding this short course.
 * If you have any questions please feel free to [contact me](mailto:derek@derekogle.com).
 
